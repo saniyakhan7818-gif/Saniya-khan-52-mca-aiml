@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Store</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">🛒 ShopZone</div>
+        <nav>
+            <button class="nav-btn active" onclick="showTab('products')">Products</button>
+            <button class="nav-btn" onclick="showTab('cart')">Cart (<span id="cartCount">0</span>)</button>
+            <button class="nav-btn" onclick="showTab('orders')">Orders</button>
+            <button class="nav-btn seller" onclick="showTab('seller')">Seller Panel</button>
+        </nav>
+    </header>
+
+    <main class="container">
+        <!-- 1. Products Section -->
+        <section id="productsSection" class="tab-content active">
+            <h2>Available Products</h2>
+            <div id="productGrid" class="grid"></div>
+        </section>
+
+        <!-- 2. Cart Section -->
+        <section id="cartSection" class="tab-content">
+            <h2>Your Shopping Cart</h2>
+            <div id="cartItems"></div>
+            <div class="cart-summary" id="cartSummary" style="display:none;">
+                <h3>Total: ₹<span id="cartTotal">0</span></h3>
+                <button class="btn btn-primary" onclick="openPaymentModal()">Proceed to Checkout</button>
+            </div>
+        </section>
+
+        <!-- 3. Orders Section -->
+        <section id="ordersSection" class="tab-content">
+            <h2>Successful Orders</h2>
+            <div id="orderList"></div>
+        </section>
+
+        <!-- 4. Seller Panel Section -->
+        <section id="sellerSection" class="tab-content">
+            <h2>Seller Master Panel</h2>
+            <div class="card form-card">
+                <h3 id="formTitle">Add New Product</h3>
+                <form id="sellerForm" onsubmit="handleSellerSubmit(event)">
+                    <input type="hidden" id="editProductId">
+                    <input type="text" id="pName" placeholder="Product Name" required>
+                    <input type="number" id="pPrice" placeholder="Price (₹)" min="1" required>
+                    <input type="text" id="pDesc" placeholder="Description" required>
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-primary" id="saveBtn">Save Product</button>
+                        <button type="button" class="btn btn-secondary" id="cancelEditBtn" onclick="resetSellerForm()" style="display:none;">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <h3>Manage Product Inventory</h3>
+            <table class="seller-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="sellerTableBody"></tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <h3>Payment Gateway</h3>
+            <p>Order Total: <strong>₹<span id="payAmount">0</span></strong></p>
+            <label for="payMethod">Select Payment Method:</label>
+            <select id="payMethod">
+                <option value="Card">Credit / Debit Card</option>
+                <option value="UPI">UPI / Google Pay</option>
+                <option value="NetBanking">Net Banking</option>
+                <option value="COD">Cash on Delivery</option>
+            </select>
+            <div class="modal-actions">
+                <button class="btn btn-primary" onclick="confirmPayment()">Pay Now</button>
+                <button class="btn btn-secondary" onclick="closePaymentModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
